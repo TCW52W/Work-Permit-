@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Work Permit — The Circle Work</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black:     #0A0A0A;
+    --black2:    #111111;
+    --black3:    #1A1A1A;
+    --black4:    #222222;
+    --gold:      #F5C400;
+    --gold2:     #E0B000;
+    --gold3:     #FDE68A;
+    --white:     #FFFFFF;
+    --off-white: #F0F0EA;
+    --mid:       #888888;
+    --muted:     #555555;
+    --border:    #2A2A2A;
+    --border2:   #333333;
+    --green:     #22C55E;
+    --red:       #EF4444;
+    --red-dark:  #DC2626;
+    --orange:    #F97316;
+    --yellow:    #FBBF24;
+    --blue:      #3B82F6;
+    --purple:    #8B5CF6;
+    /* aliases for original variable names */
+    --navy:        #0A0A0A;
+    --navy-light:  #111111;
+    --slate:       #BBBBBB;
+    --light:       #1E1E1E;
+    --lighter:     #161616;
+    --radius: 8px;
+    --shadow: 0 2px 16px rgba(0,0,0,0.55);
+    --shadow-lg: 0 8px 30px rgba(0,0,0,0.7);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #111111;
+    color: var(--white);
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  /* ── HEADER ── */
+  .site-header {
+    background: var(--black);
+    border-bottom: 2.5px solid var(--gold);
+    color: white;
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.7);
+  }
+  .site-header .brand {
+    display: flex; align-items: center; gap: 14px;
+    font-weight: 700; font-size: 15px; letter-spacing: 0.3px; color: var(--white);
+  }
+  /* TCW stacked logo in header */
+  .brand-logo {
+    display: flex; flex-direction: column; line-height: 1.05;
+    font-weight: 900; text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .brand-logo .bl1, .brand-logo .bl2 { font-size: 13px; color: var(--white); }
+  .brand-logo .bl3 { font-size: 13px; color: var(--gold); }
+  .brand-divider { width: 1px; height: 36px; background: var(--border2); }
+  .brand-text { display: flex; flex-direction: column; }
+  .brand-text .bt1 { font-size: 15px; font-weight: 700; color: var(--white); }
+  .brand-text .bt2 { font-size: 11px; color: var(--mid); margin-top: 1px; }
+  .header-actions { display: flex; gap: 10px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 18px; border-radius: 6px; font-size: 13px;
+    font-family: inherit; font-weight: 700; cursor: pointer; border: none;
+    transition: all 0.18s ease; text-transform: uppercase; letter-spacing: 0.4px;
+  }
+  .btn-outline {
+    background: transparent; border: 1.5px solid var(--border2); color: var(--mid);
+  }
+  .btn-outline:hover { border-color: var(--mid); color: var(--white); }
+  .btn-primary { background: var(--gold); color: var(--black); }
+  .btn-primary:hover { background: var(--gold2); box-shadow: 0 4px 14px rgba(245,196,0,0.35); transform: translateY(-1px); }
+  .btn-success { background: var(--green); color: white; }
+  .btn-success:hover { background: #16A34A; transform: translateY(-1px); }
+
+  /* ── PERMIT TYPE BANNER ── */
+  .type-banner {
+    background: var(--black2);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 32px;
+    display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+  }
+  .type-banner label { color: var(--mid); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; }
+  .type-badges { display: flex; gap: 8px; flex-wrap: wrap; }
+  .type-badge input[type="checkbox"] { display: none; }
+  .type-badge label {
+    display: flex; align-items: center; gap: 6px;
+    padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 700;
+    border: 2px solid var(--border2); color: var(--muted);
+    cursor: pointer; transition: all 0.15s;
+    text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .type-badge input:checked + label { border-color: var(--gold); color: var(--black); background: var(--gold); }
+  .type-badge label:hover { border-color: var(--mid); color: var(--white); }
+  .badge-hot      input:checked + label { background: var(--red);    border-color: var(--red);    color: white; }
+  .badge-height   input:checked + label { background: var(--orange); border-color: var(--orange); color: white; }
+  .badge-elec     input:checked + label { background: var(--yellow); border-color: var(--yellow); color: var(--black); }
+  .badge-confined input:checked + label { background: var(--purple); border-color: var(--purple); color: white; }
+  .badge-general  input:checked + label { background: var(--green);  border-color: var(--green);  color: white; }
+
+  /* ── MAIN LAYOUT ── */
+  .main { max-width: 1100px; margin: 0 auto; padding: 28px 20px 60px; }
+
+  /* ── SECTIONS ── */
+  .section {
+    background: var(--black2); border: 1px solid var(--border2); border-radius: 12px; margin-bottom: 20px;
+    box-shadow: var(--shadow); overflow: hidden;
+  }
+  .section-header {
+    background: var(--black);
+    border-bottom: 2px solid var(--gold);
+    color: var(--white);
+    padding: 13px 24px; display: flex; align-items: center; gap: 10px;
+    font-weight: 800; font-size: 12px; text-transform: uppercase; letter-spacing: 0.9px;
+  }
+  .section-header .gold-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+  .section-header .icon { font-size: 16px; }
+  .section-body { padding: 24px; }
+
+  /* ── FORM FIELDS ── */
+  .field-row { display: grid; gap: 16px; margin-bottom: 16px; }
+  .field-row.cols-3 { grid-template-columns: repeat(3, 1fr); }
+  .field-row.cols-2 { grid-template-columns: repeat(2, 1fr); }
+  .field-row.cols-1 { grid-template-columns: 1fr; }
+  .field-row.cols-4 { grid-template-columns: repeat(4, 1fr); }
+
+  .field label {
+    display: block; font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.7px;
+    color: var(--mid); margin-bottom: 6px;
+  }
+  .field input[type="text"],
+  .field input[type="date"],
+  .field input[type="time"],
+  .field textarea,
+  .field select {
+    width: 100%; padding: 10px 14px; border: 1.5px solid var(--border2);
+    border-radius: var(--radius); font-family: inherit; font-size: 13px;
+    color: var(--white); background: var(--black3); transition: border 0.15s;
+    outline: none; -webkit-appearance: none; appearance: none;
+  }
+  .field input:focus, .field textarea:focus, .field select:focus {
+    border-color: var(--gold); background: var(--black3); box-shadow: 0 0 0 3px rgba(245,196,0,0.12);
+  }
+  .field textarea { resize: vertical; min-height: 80px; }
+  .field select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px;
+  }
+  .field select option { background: var(--black3); color: var(--white); }
+  .field input[readonly] { background: var(--black); color: var(--muted); cursor: not-allowed; border-color: var(--border); }
+  input[type=date]::-webkit-calendar-picker-indicator,
+  input[type=time]::-webkit-calendar-picker-indicator { filter: invert(1) brightness(0.5); cursor: pointer; }
+
+  /* ── PPE GRID ── */
+  .ppe-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
+  .ppe-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 14px; border: 1.5px solid var(--border2); border-radius: var(--radius);
+    background: var(--black3); transition: all 0.15s; color: var(--off-white);
+  }
+  .ppe-item:has(input:checked) { border-color: var(--gold); background: rgba(245,196,0,0.08); }
+  .ppe-item input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--gold); flex-shrink: 0; }
+  .ppe-item .ppe-label { font-size: 13px; font-weight: 500; flex: 1; }
+  .ppe-item input[type="number"] {
+    width: 50px; padding: 3px 6px; border: 1px solid var(--border2);
+    border-radius: 4px; font-size: 12px; text-align: center; background: var(--black);
+    font-family: 'JetBrains Mono', monospace; color: var(--gold);
+  }
+
+  /* ── PRECAUTIONS ── */
+  .precautions-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 8px; }
+  .precaution-item {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 10px 14px; border: 1.5px solid var(--border2); border-radius: var(--radius);
+    background: var(--black3); transition: all 0.15s; cursor: pointer; color: var(--off-white);
+  }
+  .precaution-item:has(input:checked) { border-color: var(--green); background: rgba(34,197,94,0.08); }
+  .precaution-item input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--green); flex-shrink: 0; margin-top: 2px; }
+  .precaution-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500; color: var(--muted); min-width: 22px; }
+  .precaution-text { font-size: 13px; line-height: 1.5; color: var(--slate); }
+
+  /* ── RISK TABLE ── */
+  .risk-group { margin-bottom: 20px; }
+  .risk-group-title {
+    font-size: 11px; font-weight: 800; text-transform: uppercase;
+    letter-spacing: 0.8px; color: var(--gold); margin-bottom: 10px;
+    padding-bottom: 5px; border-bottom: 2px solid var(--gold);
+  }
+  .risk-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 8px; }
+  .risk-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 12px; border: 1.5px solid var(--border2); border-radius: var(--radius);
+    background: var(--black3); font-size: 13px; cursor: pointer; transition: all 0.15s;
+    color: var(--off-white);
+  }
+  .risk-item:has(input:checked) { border-color: var(--red); background: rgba(239,68,68,0.1); }
+  .risk-item input[type="checkbox"] { width: 15px; height: 15px; accent-color: var(--red); flex-shrink: 0; }
+
+  /* ── CONTROL MEASURES ── */
+  .controls-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 8px; }
+  .control-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 12px; border: 1.5px solid var(--border2); border-radius: var(--radius);
+    background: var(--black3); font-size: 13px; cursor: pointer; transition: all 0.15s;
+    color: var(--off-white);
+  }
+  .control-item:has(input:checked) { border-color: var(--purple); background: rgba(139,92,246,0.1); }
+  .control-item input[type="checkbox"] { width: 15px; height: 15px; accent-color: var(--purple); flex-shrink: 0; }
+  .control-subhead {
+    font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px;
+    color: var(--gold); margin: 14px 0 6px; padding: 4px 0; border-bottom: 1px solid var(--border2);
+    grid-column: 1/-1;
+  }
+
+  /* ── PERSONNEL TABLE ── */
+  .personnel-table { width: 100%; border-collapse: collapse; }
+  .personnel-table th {
+    background: var(--black); font-size: 11px; text-transform: uppercase;
+    letter-spacing: 0.7px; padding: 9px 12px; text-align: left; color: var(--gold);
+    border: 1px solid var(--border2); font-weight: 800;
+  }
+  .personnel-table td { border: 1px solid var(--border); }
+  .personnel-table td input {
+    width: 100%; padding: 9px 12px; border: none; font-family: inherit;
+    font-size: 13px; background: transparent; outline: none; color: var(--white);
+  }
+  .personnel-table td input:focus { background: rgba(245,196,0,0.06); }
+  .add-row-btn {
+    margin-top: 8px; padding: 7px 16px; border-radius: 6px;
+    background: var(--black3); border: 1.5px dashed var(--border2);
+    font-family: inherit; font-size: 13px; font-weight: 700; color: var(--muted);
+    cursor: pointer; transition: all 0.15s;
+  }
+  .add-row-btn:hover { border-color: var(--gold); color: var(--gold); background: rgba(245,196,0,0.06); }
+
+  /* ── TAG LOCKOUT ── */
+  .tagout-list { display: flex; flex-direction: column; gap: 8px; }
+  .tagout-item { display: flex; align-items: center; gap: 8px; }
+  .tagout-item span {
+    font-family: 'JetBrains Mono', monospace; font-size: 12px;
+    background: var(--gold); color: var(--black); padding: 4px 9px; border-radius: 4px; min-width: 28px; text-align: center; font-weight: 800;
+  }
+  .tagout-item input {
+    flex: 1; padding: 9px 14px; border: 1.5px solid var(--border2); border-radius: var(--radius);
+    font-family: inherit; font-size: 13px; background: var(--black3); color: var(--white); outline: none;
+  }
+  .tagout-item input:focus { border-color: var(--gold); }
+
+  /* ── SIGNATURES ── */
+  .sig-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .sig-box {
+    border: 1.5px solid var(--border2); border-radius: var(--radius); padding: 16px;
+    background: var(--black3);
+  }
+  .sig-box label { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.7px; color: var(--gold); display: block; margin-bottom: 8px; }
+  .sig-box input {
+    width: 100%; margin-top: 0; padding: 9px 14px; border: 1.5px solid var(--border2);
+    border-radius: var(--radius); font-family: inherit; font-size: 13px;
+    background: var(--black); color: var(--white); outline: none;
+  }
+  .sig-box input:focus { border-color: var(--gold); }
+  .sig-line { border-top: 1.5px solid var(--border2); margin-top: 40px; padding-top: 6px; font-size: 11px; color: var(--muted); text-align: center; }
+
+  /* ── STATUS PILLS ── */
+  .pill {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700; text-transform: uppercase;
+  }
+  .pill-active { background: rgba(34,197,94,0.15); color: var(--green); border: 1px solid rgba(34,197,94,0.3); }
+
+  /* ── DIVIDER ── */
+  .divider { height: 1px; background: var(--border); margin: 20px 0; }
+
+  /* ── ACCEPTANCE TEXT ── */
+  .acceptance-text {
+    font-size: 13px; line-height: 1.75; color: #BBBBBB;
+    background: rgba(245,196,0,0.06); border-left: 3px solid var(--gold);
+    padding: 16px 20px; border-radius: 0 var(--radius) var(--radius) 0;
+    margin-bottom: 20px;
+  }
+
+  /* ── COMPLETION ── */
+  .completion-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+
+  /* ── PRINT-ONLY PERMIT HEADER & TYPE STRIP ── */
+  .print-permit-header { display: none; }
+  .print-type-strip    { display: none; }
+
+  /* Type strip layout (shared screen+print) */
+  .print-type-strip .strip-inner {
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    padding: 10px 16px; background: #F7FAFC;
+    border: 1.5px solid #E2E8F0; border-radius: 8px; margin-bottom: 2px;
+  }
+  .print-type-strip .strip-label {
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.8px; color: #718096; white-space: nowrap;
+  }
+  .print-type-badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 5px 14px; border-radius: 16px; font-size: 12px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.5px;
+    border: 2px solid #CBD5E0; color: #A0AEC0; background: white;
+    transition: all 0.15s;
+  }
+  /* Active states — applied via JS */
+  .print-type-badge.active-hot      { background: #C0392B; color: white; border-color: #C0392B; }
+  .print-type-badge.active-height   { background: #E67E22; color: white; border-color: #E67E22; }
+  .print-type-badge.active-elec     { background: #F39C12; color: white; border-color: #F39C12; }
+  .print-type-badge.active-confined { background: #8E44AD; color: white; border-color: #8E44AD; }
+  .print-type-badge.active-general  { background: #27AE60; color: white; border-color: #27AE60; }
+
+  /* ── PRINT STYLES ── */
+  @page { size: A4 portrait; margin: 12mm 10mm; }
+  @media print {
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    body { background: white !important; color: #0A0A0A !important; font-size: 11px; }
+    .site-header, .type-banner, .add-row-btn, .no-print { display: none !important; }
+    .main { max-width: 100%; padding: 0; margin: 0; }
+    .section { box-shadow: none !important; border: 1.5px solid #ddd !important; margin-bottom: 10px; break-inside: avoid; background: white !important; }
+    .section-header { background: #0A0A0A !important; color: white !important; border-bottom: 2px solid #F5C400 !important; }
+    .section-body { background: white !important; padding: 16px !important; }
+    .print-permit-header { display: block !important; }
+    .print-type-strip { display: block !important; }
+    .field label { color: #555 !important; }
+    .field input, .field textarea, .field select { border: none !important; border-bottom: 1px solid #aaa !important; border-radius: 0 !important; background: white !important; padding: 3px 0 !important; color: #0A0A0A !important; }
+    .field input[readonly] { background: #f0f4f8 !important; }
+    .precaution-item, .risk-item, .control-item, .ppe-item { background: white !important; border-color: #ddd !important; color: #0A0A0A !important; }
+    .precaution-text { color: #444 !important; }
+    .precaution-item:has(input:checked) { background: #EAFAF1 !important; border-color: #22C55E !important; }
+    .risk-item:has(input:checked)       { background: #FEE2E2 !important; border-color: #EF4444 !important; }
+    .control-item:has(input:checked)    { background: #F5F3FF !important; border-color: #8B5CF6 !important; }
+    .ppe-item:has(input:checked)        { background: #FFFBEB !important; border-color: #F5C400 !important; }
+    .print-type-badge.active-hot      { background: #EF4444 !important; color: white !important; border-color: #EF4444 !important; }
+    .print-type-badge.active-height   { background: #F97316 !important; color: white !important; border-color: #F97316 !important; }
+    .print-type-badge.active-elec     { background: #F5C400 !important; color: #0A0A0A !important; border-color: #F5C400 !important; }
+    .print-type-badge.active-confined { background: #8B5CF6 !important; color: white !important; border-color: #8B5CF6 !important; }
+    .print-type-badge.active-general  { background: #22C55E !important; color: white !important; border-color: #22C55E !important; }
+    .sig-grid, .completion-row   { grid-template-columns: 1fr 1fr !important; }
+    .field-row.cols-3             { grid-template-columns: repeat(3,1fr) !important; }
+    .field-row.cols-2             { grid-template-columns: repeat(2,1fr) !important; }
+    .precautions-list             { grid-template-columns: repeat(2,1fr) !important; }
+    .ppe-grid                     { grid-template-columns: repeat(3,1fr) !important; }
+    .risk-grid, .controls-grid    { grid-template-columns: repeat(2,1fr) !important; }
+    .personnel-table thead        { display: table-header-group !important; }
+    .personnel-table tr           { display: table-row !important; flex-direction: unset; }
+    .personnel-table td           { display: table-cell !important; border: 1px solid #ccc; }
+    .personnel-table th           { background: #0A0A0A !important; color: #F5C400 !important; }
+    .personnel-table td input     { color: #0A0A0A !important; }
+    .sig-box { background: white !important; border-color: #ddd !important; }
+    .sig-box label { color: #0A0A0A !important; }
+    .sig-box input { background: white !important; color: #0A0A0A !important; border-color: #ddd !important; }
+    .sig-line { border-color: #0A0A0A !important; }
+    .acceptance-text { background: #FFFBEB !important; border-left-color: #F5C400 !important; color: #333 !important; }
+    .tagout-item input { background: white !important; color: #0A0A0A !important; border-color: #ddd !important; }
+    .tagout-item span { background: #F5C400 !important; color: #0A0A0A !important; }
+    .risk-group-title { color: #F5C400 !important; border-bottom-color: #F5C400 !important; }
+    .control-subhead { color: #0A0A0A !important; border-color: #ddd !important; }
+    .divider { background: #ddd !important; }
+    .sig-line { margin-top: 28px; }
+  }
+
+  /* Print header (visible only during print) */
+  .print-permit-header {
+    text-align: center; margin-bottom: 12px; padding-bottom: 12px;
+  }
+  .print-permit-header .pph-inner {
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .print-permit-header .pph-logo { display: flex; flex-direction: column; line-height: 1.05; text-align: left; }
+  .print-permit-header .pph-l1,
+  .print-permit-header .pph-l2 { font-size: 20px; font-weight: 900; color: #0A0A0A; text-transform: uppercase; letter-spacing: 0.5px; }
+  .print-permit-header .pph-l3 { font-size: 20px; font-weight: 900; color: #F5C400; text-transform: uppercase; letter-spacing: 0.5px; }
+  .print-permit-header .pph-title { text-align: right; }
+  .print-permit-header .pph-title h1 { font-size: 16px; font-weight: 800; color: #0A0A0A; text-transform: uppercase; letter-spacing: 0.5px; }
+  .print-permit-header .pph-title p  { font-size: 11px; color: #666; margin-top: 3px; }
+  .print-gold-bar { height: 4px; background: #F5C400; border-radius: 2px; margin-top: 10px; }
+
+  .print-type-strip .strip-inner {
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    padding: 10px 16px; background: #F7F7F7;
+    border: 1.5px solid #E0E0E0; border-radius: 8px; margin-bottom: 10px;
+  }
+  .print-type-strip .strip-label {
+    font-size: 11px; font-weight: 800; text-transform: uppercase;
+    letter-spacing: 0.8px; color: #555; white-space: nowrap;
+  }
+  .print-type-badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 5px 14px; border-radius: 16px; font-size: 12px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.5px;
+    border: 2px solid #ddd; color: #aaa; background: white;
+    transition: all 0.15s;
+  }
+  .print-type-badge.active-hot      { background: #EF4444; color: white; border-color: #EF4444; }
+  .print-type-badge.active-height   { background: #F97316; color: white; border-color: #F97316; }
+  .print-type-badge.active-elec     { background: #F5C400; color: #0A0A0A; border-color: #F5C400; }
+  .print-type-badge.active-confined { background: #8B5CF6; color: white; border-color: #8B5CF6; }
+  .print-type-badge.active-general  { background: #22C55E; color: white; border-color: #22C55E; }
+
+  /* ── MOBILE — 768px ── */
+  @media (max-width: 768px) {
+    .site-header { padding: 0 16px; height: auto; min-height: 54px; flex-wrap: wrap; gap: 6px; padding-top: 8px; padding-bottom: 8px; }
+    .site-header .brand { font-size: 14px; gap: 7px; }
+    .site-header .brand .pill { display: none; }
+    .header-actions { gap: 6px; }
+    .btn { padding: 7px 12px; font-size: 13px; }
+    .type-banner { padding: 10px 16px; gap: 8px; flex-direction: column; align-items: flex-start; }
+    .type-banner > label { font-size: 12px; }
+    .type-badges { gap: 6px; }
+    .type-badge label { padding: 5px 10px; font-size: 11px; }
+    .main { padding: 14px 12px 60px; }
+    .field-row.cols-3 { grid-template-columns: 1fr 1fr; }
+    .field-row.cols-4 { grid-template-columns: 1fr 1fr; }
+    .field-row.cols-2 { grid-template-columns: 1fr 1fr; }
+    .sig-grid { grid-template-columns: 1fr; }
+    .completion-row { grid-template-columns: 1fr; }
+    .precautions-list { grid-template-columns: 1fr; }
+    .ppe-grid { grid-template-columns: 1fr 1fr; }
+    .risk-grid { grid-template-columns: 1fr; }
+    .controls-grid { grid-template-columns: 1fr; }
+    .section-body { padding: 14px; }
+    .section-header { font-size: 13px; padding: 10px 16px; }
+    .personnel-table th { font-size: 11px; padding: 7px 8px; }
+    .personnel-table td input { font-size: 13px; padding: 8px 8px; }
+    .print-type-strip .strip-inner { gap: 8px; }
+    .print-type-badge { font-size: 11px; padding: 4px 10px; }
+    .tagout-item input { font-size: 13px; }
+  }
+
+  /* ── MOBILE — 480px ── */
+  @media (max-width: 480px) {
+    .site-header { padding: 8px 12px; }
+    .site-header .brand { font-size: 13px; }
+    .btn-outline { display: none; }
+    .btn-primary { padding: 8px 14px; font-size: 13px; }
+    .field-row.cols-3,
+    .field-row.cols-4,
+    .field-row.cols-2 { grid-template-columns: 1fr; }
+    .ppe-grid { grid-template-columns: 1fr; }
+    .main { padding: 10px 10px 60px; }
+    .section-body { padding: 12px; }
+    .section-header { font-size: 12px; padding: 9px 14px; }
+
+    /* Personnel table → card layout on tiny screens */
+    .personnel-table thead { display: none; }
+    .personnel-table tbody tr {
+      display: flex; flex-direction: column;
+      border: 1px solid var(--border); margin-bottom: 8px;
+      border-radius: var(--radius); overflow: hidden;
+    }
+    .personnel-table td { display: block; border: none; border-bottom: 1px solid var(--light); }
+    .personnel-table td:last-child { border-bottom: none; }
+    .personnel-table td input { padding: 10px 12px; }
+
+    /* Float print button fixed at bottom on mobile */
+    .float-print {
+      display: flex !important;
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: var(--black); border-top: 2px solid var(--gold); padding: 10px 16px;
+      justify-content: space-between; align-items: center;
+      z-index: 200; box-shadow: 0 -4px 16px rgba(0,0,0,0.6);
+    }
+    .float-print-label { color: var(--mid); font-size: 12px; font-weight: 600; }
+    .float-print .btn-primary { flex: 1; justify-content: center; margin-left: 10px; }
+  }
+
+  /* Float print bar (hidden by default, shown on ≤480) */
+  .float-print { display: none; }
+</style>
+</head>
+<body>
+
+<!-- SITE HEADER -->
+<header class="site-header no-print">
+  <div class="brand">
+    <div class="brand-logo">
+      <span class="bl1">THE</span>
+      <span class="bl2">CIRCLE</span>
+      <span class="bl3">.WORK</span>
+    </div>
+    <div class="brand-divider"></div>
+    <div class="brand-text">
+      <span class="bt1">Work Permit System</span>
+      <span class="bt2">Health &amp; Safety Division</span>
+    </div>
+    <span class="pill pill-active">● Active</span>
+  </div>
+  <div class="header-actions">
+    <button class="btn btn-outline" onclick="resetForm()">↺ Reset</button>
+    <button class="btn btn-primary" onclick="window.print()">🖨 Print / Save PDF</button>
+  </div>
+</header>
+
+<!-- PERMIT TYPE SELECTOR -->
+<div class="type-banner no-print">
+  <label>Permit Type:</label>
+  <div class="type-badges">
+    <div class="type-badge badge-hot"><input type="checkbox" id="t-hot"><label for="t-hot">🔥 Hot Work</label></div>
+    <div class="type-badge badge-height"><input type="checkbox" id="t-height"><label for="t-height">⬆ Work at Height</label></div>
+    <div class="type-badge badge-elec"><input type="checkbox" id="t-elec"><label for="t-elec">⚡ Electrical</label></div>
+    <div class="type-badge badge-confined"><input type="checkbox" id="t-confined"><label for="t-confined">🔒 Confined Spaces</label></div>
+    <div class="type-badge badge-general"><input type="checkbox" id="t-general"><label for="t-general">📋 General</label></div>
+  </div>
+</div>
+
+<!-- MAIN FORM -->
+<div class="main">
+  <!-- Print Header (shown only when printing) -->
+  <div class="print-permit-header">
+    <div class="pph-inner">
+      <div class="pph-logo">
+        <span class="pph-l1">THE</span>
+        <span class="pph-l2">CIRCLE</span>
+        <span class="pph-l3">.WORK</span>
+      </div>
+      <div class="pph-title">
+        <h1>Work Permit — Permit to Work</h1>
+        <p>Health &amp; Safety Division &nbsp;·&nbsp; The Circle Work Facilities Management</p>
+      </div>
+    </div>
+    <div class="print-gold-bar"></div>
+  </div>
+
+  <!-- Permit Type Strip — shown on print, shows selected types prominently -->
+  <div class="print-type-strip" id="print-type-strip">
+    <div class="strip-inner">
+      <span class="strip-label">Permit Type:</span>
+      <span class="print-type-badge" id="pb-hot">🔥 Hot Work</span>
+      <span class="print-type-badge" id="pb-height">⬆ Work at Height</span>
+      <span class="print-type-badge" id="pb-elec">⚡ Electrical</span>
+      <span class="print-type-badge" id="pb-confined">🔒 Confined Spaces</span>
+      <span class="print-type-badge" id="pb-general">📋 General</span>
+    </div>
+  </div>
+
+  <!-- SECTION 1: Basic Info -->
+  <div class="section">
+    <div class="section-header"><span class="gold-dot"></span><span class="icon">📋</span> General Information</div>
+    <div class="section-body">
+      <div class="field-row cols-3">
+        <div class="field">
+          <label>Date</label>
+          <input type="date" id="f-date">
+        </div>
+        <div class="field">
+          <label>Work Location</label>
+          <select id="f-location" onchange="autoFillBuilding()">
+            <option value="">— Select Location —</option>
+            <option value="The Circle Work (MCC)">The Circle Work (MCC)</option>
+            <option value="The Circle Work (UTC)">The Circle Work (UTC)</option>
+            <option value="The Circle Work (PSP)">The Circle Work (PSP)</option>
+            <option value="The Circle Work (Omaxe)">The Circle Work (Omaxe)</option>
+            <option value="The Circle Work (DDN)">The Circle Work (DDN)</option>
+            <option value="The Circle Work (UBZ)">The Circle Work (UBZ)</option>
+            <option value="The Circle Work (GOA)">The Circle Work (GOA)</option>
+            <option value="The Circle Work (BLR)">The Circle Work (BLR)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Building / Address</label>
+          <input type="text" id="f-building" placeholder="Auto-filled on location select" readonly style="background:#f0f4f8;color:#4A5568;cursor:not-allowed;">
+        </div>
+      </div>
+      <div class="field-row cols-2">
+        <div class="field">
+          <label>Area</label>
+          <input type="text" id="f-area" placeholder="Specific area or room">
+        </div>
+        <div class="field">
+          <label>Company Undertaking Work</label>
+          <input type="text" id="f-company" placeholder="Contractor / vendor name">
+        </div>
+      </div>
+      <div class="field-row cols-1">
+        <div class="field">
+          <label>Description of Work</label>
+          <textarea id="f-desc" placeholder="Describe the work to be carried out in detail…" rows="3"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 2: Timescale -->
+  <div class="section">
+    <div class="section-header"><span class="gold-dot"></span><span class="icon">⏱</span> Timescale <span style="font-weight:400;font-size:12px;opacity:0.7;margin-left:8px;">(Not to exceed 8 hours)</span></div>
+    <div class="section-body">
+      <div class="field-row cols-2">
+        <div class="field">
+          <label>From (Start Time)</label>
+          <input type="time" id="f-from">
+        </div>
+        <div class="field">
+          <label>To (End Time)</label>
+          <input type="time" id="f-to">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 3: PPE -->
+  <div class="section">
+    <div class="section-header"><span class="gold-dot"></span><span class="icon">🦺</span> Personal Protective Equipment (PPE)</div>
+    <div class="section-body">
+      <p style="font-size:12px;color:var(--mid);margin-bottom:14px;">Check all PPE that will be used and enter quantity issued in the number field.</p>
+      <div class="ppe-grid" id="ppe-grid">
+        <!-- Generated by JS -->
+      </div>
+      <div class="field-row cols-1" style="margin-top:16px;">
+        <div class="field">
+          <label>Other PPE (specify)</label>
+          <input type="text" id="f-ppe-other" placeholder="Describe any additional PPE not listed above…">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 4: Hazards -->
+  <div class="section">
+    <div class="section-header"><span class="gold-dot"></span><span class="icon">⚠️</span> Hazards Associated with Work</div>
+    <div class="section-body">
+      <div class="field-row cols-1">
+        <div class="field">
+          <label>Detail all hazards associated with this work</label>
+          <textarea id="f-hazards" placeholder="List all foreseeable hazards…" rows="3"></textarea>
+        </div>
+      </div>
+      <div class="field-row cols-1">
+        <div class="field">
+          <label>Equipment / Materials Used</label>
+          <textarea id="f-equipment" placeholder="List all tools, machinery, and materials to be used…" rows="3"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 5: Precautions -->
+  <div class="section">
+    <div class="section-header"><span class="gold-dot"></span><span class="icon">✅</span> Precautions to be Taken</div>
+    <div class="section-body">
+      <p style="font-size:12px;color:var(--mid);margin-bottom:14px;">Tick all precautions that will be taken when carrying out this work.</p>
+      <div class="precautions-list" id="precautions-list">
+        <!-- Generated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 6: Risk Assessment -->
+  <div class="section">
+    <div class="section-header"><span class="gold-dot"></span><span class="icon">🔴</span> Risk Assessment</div>
+    <div class="section-body">
+
+      <div class="risk-group">
+        <div class="risk-group-title">Is there a risk of…</div>
+        <div class="risk-grid" id="risks-grid"></div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="risk-group">
+        <div class="risk-group-title">Will the work involve…</div>
+        <div class="risk-grid" id="involve-grid"></div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="risk-group">
+        <div class="risk-group-title">Who may be affected by the risk?</div>
+        <div class="risk-grid" id="affected-grid"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SECTION 7: Control Measures -->
+  <div class="section">
+    <div class="section-header"><span class="gold-dot"></span><span class="icon">🛡</span> Control Measures</div>
+    <div class="section-body">
+      <p style="font-size:12px;color:var(--mid);margin-bottom:14px;">Tick all applicable control measures. Describe each in detail in the risk assessment.</p>
+      <div class="controls-grid" id="controls-grid"></div>
+    </div>
+  </div>
+
+  <!-- SECTION 8: Tag & Lock Out -->
+  <div class="section">
+    <div class="section-header"><span class="gold-dot"></span><span class="icon">🔒</span> Tag & Lock Out Points</div>
+    <div class="section-body">
+      <div class="tagout-list" id="tagout-list">
+        <div class="tagout-item"><span>1</span><input type="text" placeholder="Isolation point description"></div>
+        <div class="tagout-item"><span>2</span><input type="text" placeholder="Isolation point description"></div>
+        <div class="tagout-item"><span>3</span><input type="text" placeholder="Isolation point description"></div>
+      </div>
+      <button class="add-row-btn no-print" style="margin-top:10px;" onclick="addTagout()">+ Add Isolation Point</button>
+    </div>
+  </div>
+
+  <!-- SECTION 9: Personnel -->
+  <div class="section">
+    <div class="section-header"><span class="gold-dot"></span><span class="icon">👷</span> Personnel Involved</div>
+    <div class="section-body">
+      <table class="personnel-table" id="personnel-table">
+        <thead>
+          <tr>
+            <th width="35%">Full Name</th>
+            <th width="30%">Role / Trade</th>
+            <th width="35%">Company</th>
+          </tr>
+        </thead>
+        <tbody id="personnel-body">
+          <tr><td><input type="text" placeholder="Name"></td><td><input type="text" placeholder="Role"></td><td><input type="text" placeholder="Company"></td></tr>
+          <tr><td><input type="text" placeholder="Name"></td><td><input type="text" placeholder="Role"></td><td><input type="text" placeholder="Company"></td></tr>
+          <tr><td><input type="text" placeholder="Name"></td><td><input type="text" placeholder="Role"></td><td><input type="text" placeholder="Company"></td></tr>
+        </tbody>
+      </table>
+      <button class="add-row-btn no-print" onclick="addPersonnelRow()">+ Add Personnel</button>
+    </div>
+  </div>
+
+  <!-- SECTION 10: Acceptance -->
+  <div class="section">
+    <div class="section-header"><span class="gold-dot"></span><span class="icon">📝</span> Acceptance & Declaration</div>
+    <div class="section-body">
+      <div class="acceptance-text">
+        The contractor is in receipt of, understands, acknowledges, and accepts all terms and conditions of The Circle Work Health &amp; Safety at Work Contractor Site Rules and related documents. The contractor will retain only qualified and experienced resources under appropriate supervision, ensuring all policies, procedures, and rules are complied with at all times. The contractor has contacted the designated approved person from The Circle Work to discuss any health and safety considerations. I hereby declare that no work other than that stated above will be carried out, and all precautionary measures will be adhered to. I certify that the work has been made dead, electrically isolated, earthed if necessary, and all relevant measures have been taken to ensure safe working.
+      </div>
+      <div class="sig-grid">
+        <div class="sig-box">
+          <label>Contractor Representative</label>
+          <input type="text" placeholder="Print full name">
+          <div class="sig-line">Signature &amp; Date</div>
+        </div>
+        <div class="sig-box">
+          <label>The Circle Work Representative</label>
+          <input type="text" placeholder="Print full name">
+          <div class="sig-line">Signature &amp; Date</div>
+        </div>
+        <div class="sig-box">
+          <label>Facility / Project Manager</label>
+          <input type="text" placeholder="Print full name">
+          <div class="sig-line">Signature &amp; Date</div>
+        </div>
+        <div class="sig-box">
+          <label>Emergency Contact Person</label>
+          <input type="text" placeholder="Name &amp; contact number">
+          <div class="sig-line">In case of emergency</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 11: Completion -->
+  <div class="section">
+    <div class="section-header"><span class="gold-dot"></span><span class="icon">✔️</span> Completion</div>
+    <div class="section-body">
+      <div class="acceptance-text" style="border-left-color:var(--green);">
+        I hereby declare that the work stated above has been fully completed. Remove caps of smoke/heat detectors and sprinkler bulbs if any were capped. Please provide full details below if the work has not been completed.
+      </div>
+      <div class="field-row cols-1">
+        <div class="field">
+          <label>Remarks (if work not fully completed)</label>
+          <textarea placeholder="Describe outstanding items, if any…" rows="2"></textarea>
+        </div>
+      </div>
+      <div class="completion-row">
+        <div class="sig-box">
+          <label>Contractor Signature</label>
+          <input type="text" placeholder="Name">
+          <div class="sig-line">Signature · Time &amp; Date</div>
+        </div>
+        <div class="sig-box">
+          <label>Company Representative Signature</label>
+          <input type="text" placeholder="Name">
+          <div class="sig-line">Signature · Time &amp; Date</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 12: Cancellation -->
+  <div class="section">
+    <div class="section-header"><span class="gold-dot"></span><span class="icon">❌</span> Cancellation</div>
+    <div class="section-body">
+      <div class="acceptance-text" style="border-left-color:var(--red);">
+        All copies of this permit to work are hereby cancelled.
+      </div>
+      <div class="completion-row">
+        <div class="sig-box">
+          <label>Contractor Signature</label>
+          <input type="text" placeholder="Name">
+          <div class="sig-line">Signature · Time &amp; Date</div>
+        </div>
+        <div class="sig-box">
+          <label>Company Representative Signature</label>
+          <input type="text" placeholder="Name">
+          <div class="sig-line">Signature · Time &amp; Date</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<!-- Float print bar (mobile ≤480px) -->
+<div class="float-print no-print">
+  <span class="float-print-label">Ready to save?</span>
+  <button class="btn btn-primary" onclick="window.print()">🖨 Print / Save PDF</button>
+</div>
+
+<script>
+// ─────────────────────────────────────────────
+// DATA
+// ─────────────────────────────────────────────
+const PPE_ITEMS = [
+  'Safety Goggles','Safety Shoes','Hard Hat','Protective Gloves',
+  'Respiratory Equipment','Overalls','Breathing Apparatus','Safety Harness',
+  'Scaffolding','Safety Net','Welding Shield / Goggles'
+];
+
+const PRECAUTIONS = [
+  'Separate authorization obtained for working on live electrical equipment (e.g. fault finding)',
+  'Ensure required Tag & Lock Out is implemented',
+  'Persons shall be deemed competent',
+  'Check location and means of raising alarm',
+  'Ensure appropriate PPE is worn',
+  'Cordon off working area with controlled access',
+  'Specify any additional precautions as per attached list',
+  'Check the physical condition of PPEs (whether fit for use or not)',
+  'Capping of smoke/heat detectors or sprinkler bulbs, if any required',
+  'Check healthiness, physical condition and safety features of equipment brought by vendor',
+  'Fire extinguishers to be readily available & persons trained in use',
+  'Ensure hot work equipment is suitable for use and in good order',
+  'Avoid / remove explosive gases in cutting/welding area',
+  'Provide suitable protection against sparks and hot particles (e.g. welding curtains)',
+  'Flammable materials to be removed or covered with anti-flammable material',
+  'Work area to be cleaned after completion (all smoldering residues removed)',
+  'Ensure all persons involved are suitable and have been adequately trained',
+  'Surrounding area checked & employees informed & shifted to safer workplace',
+  'Surrounding area barricaded & caution signage displayed',
+  'Ladder/scaffold provided and tied properly at the top',
+  'Safety belt & lifeline anchor is used',
+  'Person deputed to fire watch & warn persons near activity area. Follow-up inspection for 60 minutes after work to ensure no smoldering remains',
+  'Ensure working platform is secured properly',
+  'Safety nets installed if required (to prevent falling objects)',
+  'Ensure adequate measures for lowering material to ground (never throw objects from roof)',
+  'Check weather conditions',
+  'Adequate assessment of roof structure to ensure it can support weight',
+  'Ensure access is prevented to unauthorized personnel',
+  'Physically check Ropes/Gondolas for healthiness',
+  'Confined space to be free from dangerous fumes or asphyxiating gases',
+  'Ensure adequate supply of fresh air available in confined space',
+  'Take precautions to protect confined spaces from gases/fumes from adjacent sources',
+  'Clean working area before entry into confined space',
+  'Ensure adequate lighting in confined space – provide illumination if needed',
+  'Procedure in place for emergency situations',
+  'Ensure effective communications between persons inside and outside confined space',
+];
+
+const RISKS = [
+  'Tripping','A fire','Site access/egress (e.g. obstructions)','Exposure to hazardous substances',
+  'Falling from height','An explosion','Striking against something','Heat burns',
+  'Being hit by something falling','Excessive noise','Being hit by moving vehicle',
+  'Vibration affecting those involved','Coming into contact with machinery',
+  'Exposure to extreme temperatures (e.g. weather)','Being trapped or crushed by machinery',
+  'Work obstructing fire escape routes','Being cut by a sharp object',
+  'Work obstructing traffic routes','Dust affecting those involved',
+  'Accidental isolation of building services','Being exposed to low oxygen levels',
+  'A manual handling injury','Contact dermatitis','Exposure to asbestos',
+  'Electric shock or electrocution','Others (specify on separate page)',
+  'Exposure to harmful radiation',
+];
+
+const INVOLVES = [
+  'Working alone','Working out of hours','Working at height','Working in a confined space',
+  'Work in an occupied area','Disruption of services or IT',
+  'Use of lifting equipment','Work on pressurized systems',
+];
+
+const AFFECTED = [
+  'Those involved in the work','Members of The Circle Work',
+  'Higher risk groups (e.g. pregnant women)','Members of the public',
+  'Others (specify on separate page)',
+];
+
+const CONTROLS = [
+  { group: 'Isolation of Work Area' },
+  'Dust barriers','General barriers','Warning signs','Noise barriers',
+  { group: 'Lighting' },
+  'Extra lighting','Torch / Hand lamp',
+  { group: 'Isolation of Services' },
+  'Electrical','Domestic water services','Heating or cooling services',
+  'Information technology','Fire alarm or detection systems','Communications',
+  { group: 'Access Equipment' },
+  'Suspended access / cradle system','Scaffold','Tower','Ladder','Steps',
+  'Portable hand held tools','Physical condition of vendor equipment',
+  'Condition of connecting cable, plug top, etc.',
+  'Check tripping mechanisms in the equipment, if any',
+  { group: 'Training' },
+  'Operatives trained',
+  { group: 'PPE' },
+  'Protective clothing','Breathing apparatus','Fume mask','Dust mask',
+  'Gloves','Barrier cream','Safety shoes','Ear defenders',
+  'Safety helmet','Safety harness and lifeline',
+  { group: 'Fire' },
+  'Fire extinguishers (CO₂, water, foam, etc.)','Isolation of fire detection systems',
+];
+
+// ─────────────────────────────────────────────
+// RENDER FUNCTIONS
+// ─────────────────────────────────────────────
+function renderPPE() {
+  const grid = document.getElementById('ppe-grid');
+  grid.innerHTML = PPE_ITEMS.map((item, i) => `
+    <div class="ppe-item">
+      <input type="checkbox" id="ppe-${i}">
+      <label class="ppe-label" for="ppe-${i}">${item}</label>
+      <input type="number" min="0" max="99" placeholder="Qty" title="Quantity">
+    </div>
+  `).join('');
+}
+
+function renderPrecautions() {
+  const list = document.getElementById('precautions-list');
+  list.innerHTML = PRECAUTIONS.map((p, i) => `
+    <div class="precaution-item">
+      <input type="checkbox" id="prec-${i}">
+      <span class="precaution-num">${i + 1}.</span>
+      <label class="precaution-text" for="prec-${i}">${p}</label>
+    </div>
+  `).join('');
+}
+
+function renderCheckGrid(id, items) {
+  const el = document.getElementById(id);
+  el.innerHTML = items.map((item, i) => `
+    <div class="risk-item">
+      <input type="checkbox" id="${id}-${i}">
+      <label for="${id}-${i}">${item}</label>
+    </div>
+  `).join('');
+}
+
+function renderControls() {
+  const grid = document.getElementById('controls-grid');
+  let html = '';
+  CONTROLS.forEach((item, i) => {
+    if (typeof item === 'object' && item.group) {
+      html += `<div class="control-subhead">${item.group}</div>`;
+    } else {
+      html += `<div class="control-item"><input type="checkbox" id="ctrl-${i}"><label for="ctrl-${i}">${item}</label></div>`;
+    }
+  });
+  grid.innerHTML = html;
+}
+
+// ─────────────────────────────────────────────
+// DYNAMIC ROWS
+// ─────────────────────────────────────────────
+function addPersonnelRow() {
+  const tbody = document.getElementById('personnel-body');
+  const row = document.createElement('tr');
+  row.innerHTML = '<td><input type="text" placeholder="Name"></td><td><input type="text" placeholder="Role"></td><td><input type="text" placeholder="Company"></td>';
+  tbody.appendChild(row);
+}
+
+let tagoutCount = 3;
+function addTagout() {
+  tagoutCount++;
+  const list = document.getElementById('tagout-list');
+  const div = document.createElement('div');
+  div.className = 'tagout-item';
+  div.innerHTML = `<span>${tagoutCount}</span><input type="text" placeholder="Isolation point description">`;
+  list.appendChild(div);
+}
+
+// ─────────────────────────────────────────────
+// RESET
+// ─────────────────────────────────────────────
+function resetForm() {
+  if (!confirm('Reset all fields? This cannot be undone.')) return;
+  document.querySelectorAll('input[type="text"], input[type="date"], input[type="time"], textarea').forEach(el => el.value = '');
+  document.querySelectorAll('input[type="checkbox"]').forEach(el => el.checked = false);
+  document.querySelectorAll('input[type="number"]').forEach(el => el.value = '');
+  // Reset select dropdowns
+  document.querySelectorAll('select').forEach(el => el.selectedIndex = 0);
+  // Clear auto-filled building
+  const bld = document.getElementById('f-building');
+  if (bld) bld.value = '';
+  // Re-set today's date
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('f-date').value = today;
+  // Sync print badges back to unselected
+  syncPrintBadges();
+}
+
+// ─────────────────────────────────────────────
+// LOCATION → BUILDING MAP
+// ─────────────────────────────────────────────
+const LOCATION_MAP = {
+  'The Circle Work (MCC)':   '3rd to 5th Floor, Millennium (Huda) City Centre Metro Station, Gurugram, Haryana – 122002',
+  'The Circle Work (UTC)':   '1st Floor, Unitech Trade Center, Sushant Lok Phase I, Sector 42, Gurugram, Haryana – 122022',
+  'The Circle Work (PSP)':   'First Floor, PSP-F001, The Palm Spring Plaza, Golf Course Rd, DLF Phase 5, Sector 54, Gurugram, Haryana – 122001',
+  'The Circle Work (Omaxe)': 'Non-Hierarchical, 2nd Floor, Plot No. 14, Omaxe Square, Community Centre, Jasola Vihar, New Delhi – 110025',
+  'The Circle Work (DDN)':   '2nd to 3rd Floor, 281/174 Part, Khasra No. 23, Rajpur Road, Kishanpur, Dehradun, Uttarakhand – 248009',
+  'The Circle Work (UBZ)':   '2nd Floor, Unitech Business Zone, A-Block, Nirvana Country, South City-2, Sector 50, Gurgaon, Haryana – 122018',
+  'The Circle Work (GOA)':   'Ashwem Beach Road, Ashwem, Mandrem, Goa – 403527',
+  'The Circle Work (BLR)':   '3rd Floor, Building/Flat No. 302/2, Mantri Avenue, 80 FT Road, Koramangala, Bengaluru Urban, Karnataka – 560034',
+};
+
+function autoFillBuilding() {
+  const loc = document.getElementById('f-location').value;
+  const bld = document.getElementById('f-building');
+  bld.value = LOCATION_MAP[loc] || '';
+}
+
+// ─────────────────────────────────────────────
+// PERMIT TYPE → PRINT BADGE SYNC
+// ─────────────────────────────────────────────
+const TYPE_MAP = [
+  { chk: 't-hot',      badge: 'pb-hot',      cls: 'active-hot' },
+  { chk: 't-height',   badge: 'pb-height',   cls: 'active-height' },
+  { chk: 't-elec',     badge: 'pb-elec',     cls: 'active-elec' },
+  { chk: 't-confined', badge: 'pb-confined', cls: 'active-confined' },
+  { chk: 't-general',  badge: 'pb-general',  cls: 'active-general' },
+];
+
+function syncPrintBadges() {
+  TYPE_MAP.forEach(({ chk, badge, cls }) => {
+    const checked = document.getElementById(chk).checked;
+    const el = document.getElementById(badge);
+    if (checked) {
+      el.classList.add(cls);
+    } else {
+      el.classList.remove(cls);
+    }
+  });
+}
+
+// ─────────────────────────────────────────────
+// AUTO DATE
+// ─────────────────────────────────────────────
+window.onload = () => {
+  renderPPE();
+  renderPrecautions();
+  renderCheckGrid('risks-grid', RISKS);
+  renderCheckGrid('involve-grid', INVOLVES);
+  renderCheckGrid('affected-grid', AFFECTED);
+  renderControls();
+  // Set today's date
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('f-date').value = today;
+  // Attach permit type listeners
+  TYPE_MAP.forEach(({ chk }) => {
+    document.getElementById(chk).addEventListener('change', syncPrintBadges);
+  });
+};
+</script>
+</body>
+</html>
